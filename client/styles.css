@@ -1,0 +1,102 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+* {
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+
+.container {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    margin: 20px;
+    /* justify-content: center; */
+    align-items: center;
+    min-height: 100vh;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    color:rgb(255, 255, 255);
+    background-size: cover;
+    background-image: url("https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcQ7h48Szy31QZyONEjKuznGoH0w4ZZqNS4n02QzDg2ywpZDY_ZQpok1_h7yjo1b_nbtq6cV0NNIGJPDgiU");
+
+}
+
+header {
+    font-size: 8vw;
+    font-weight: 200;
+}
+
+button{
+    width: 10vw;
+    font-size: large;
+}
+
+.thumbnail {
+    display: inline-block;
+    margin: 10px;
+    cursor: pointer;
+}
+
+.article-content {
+    display: none;
+    margin-top: 20px;
+}
+
+.save-button {
+    margin-top: 10px;
+}
+
+.error-message {
+    color: red;
+}
+
+
+
+
+
+
+/* TEST */
+  
+  .chat-container {
+    max-width: 500px;
+    margin: 20px auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+  }
+  
+  .chat-log {
+    min-height: 200px;
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .input-container {
+    display: flex;
+  }
+  
+  input[type="text"] {
+    flex: 1;
+    padding: 5px;
+    border-radius: 5px 0 0 5px;
+    border: 1px solid #ccc;
+  }
+  
+  button {
+    padding: 5px 10px;
+    border-radius: 0 5px 5px 0;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+  }
+  
