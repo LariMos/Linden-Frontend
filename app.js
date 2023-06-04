@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 const searchForm = document.getElementById('search-form');
 const yearInput = document.getElementById('year-input');
 const monthInput = document.getElementById('month-input');
@@ -8,13 +6,17 @@ const articlesContainer = document.getElementById('articles-container');
 searchForm.addEventListener('submit', async (e) => {
   e.preventDefault();
 
+  const API = 'https://linden-backend-git-verceldeploy-larimos.vercel.app'
   const year = yearInput.value;
   const month = monthInput.value;
 
   try {
     // Make a request to the backend API endpoint
-    const response = await axios.get(`/articles?year=${year}&month=${month}`);
+    // const response = await axios.get(`${API}/api/articles`);
+    const response = await axios.get(`${API}/api/articles?year=${year}&month=${month}`);
     const articles = response.data;
+
+    console.log(articles);
 
     // Clear the existing articles
     articlesContainer.innerHTML = '';
@@ -57,7 +59,7 @@ searchForm.addEventListener('submit', async (e) => {
 // Function to open an article
 function openArticle(articleId) {
   // Make a request to the backend API endpoint to retrieve the article by its ID
-  axios.get(`/articles/${articleId}`)
+  axios.get(`${API}/api/articles/${articleId}`)
     .then((response) => {
       const article = response.data;
 
@@ -70,55 +72,22 @@ function openArticle(articleId) {
     });
 }
 
+// Function to save an article to favorites
+function saveArticle(articleId) {
+  // Make a request to the backend API endpoint to save the article by its ID
+  axios.post(`${API}/api/articles/${articleId}/save`)
+    .then((response) => {
+      console.log(response.data); // Success message from the server
+    })
+    .catch((error) => {
+      // Handle any errors that occurred during the API request
+      console.error(error);
+    });
+}
+
+//create one for delete
  
 
-
-//CHAT AI 
-const chatLog = document.getElementById('chat-log');
-const userInput = document.getElementById('user-input');
-const sendButton = document.getElementById('send-button');
-
-// Function to add a message to the chat log
-function addMessageToLog(message, isUser) {
-  const messageClass = isUser ? 'user-message' : 'assistant-message';
-  const messageElement = document.createElement('div');
-  messageElement.classList.add('message', messageClass);
-  messageElement.textContent = message;
-  chatLog.appendChild(messageElement);
-}
-
-// Function to handle user input and send request to the chat API
-async function handleUserInput() {
-  const userMessage = userInput.value;
-  userInput.value = '';
-
-  addMessageToLog(userMessage, true);
-
-  // Call the OpenAI Chat API to get a response
-  const response = await fetch('/api/chat', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ message: userMessage }),
-  });
-
-  const data = await response.json();
-  const assistantMessage = data.choices[0].message.content;
-
-  addMessageToLog(assistantMessage, false);
-}
-
-// Event listener for the send button
-sendButton.addEventListener('click', handleUserInput);
-
-// Event listener for the Enter key in the input field
-userInput.addEventListener('keydown', (event) => {
-  if (event.key === 'Enter') {
-    event.preventDefault();
-    handleUserInput();
-  }
-});
 
 
 //FRUIT EXAMPLE
