@@ -15,32 +15,62 @@
     <title>UNTER DEN LINDEN</title>
 </head>
 <body>
+    <div class="container" id="log-in-page">
+        <!-- Log In Page content -->
+        <button id="log-in-button">Log In</button>
+    </div>
+
+    <div class="container" id="hello-prompt-page">
+        <!-- Hello Prompt Page content -->
+        <button id="hello-prompt-button">Hello Prompt</button>
+    </div>
+    
+    <div class="container" id="read-prompt-page">
+        <!-- Read Prompt Page content -->
+        <button id="read-prompt-button">Read Prompt</button>
+    </div>
+    
     <div class="container" id="intro-page">
         <header>UNTER DEN LINDEN</header>
-        <!-- Log In button to access -->
-        <!-- <button id="log-in">Log In</button>  -->
-        <!-- Search article by year -->
-        <!-- <button id="get-article">Get Article</button> -->
-        <!-- <div id="article"></div> -->
-        <!-- Delete article -->
-        <!-- <button id="delete-article">Delete Article</button> -->
+        
         <form id="search-form">
+            <input type="text" id="year-input" placeholder="Year" />
+            <input type="text" id="month-input" placeholder="Month" />
+            <button type="submit">Search</button>
+        </form>
+        <!-- <form id="search-form">
             <label for="year-input">Year:</label>
             <input type="text" id="year-input" required>
             <label for="month-input">Month:</label>
             <input type="text" id="month-input" required>
             <button type="submit">Search</button>
             <p id="error-message" class="error-message"></p>
-        </form>
+        </form> -->
     </div>
 
-    <div class="chat-container">
-        <div class="chat-log" id="chat-log"></div>
-        <div class="input-container">
-          <input type="text" id="user-input" placeholder="Type your message...">
-          <button id="send-button">Send</button>
-        </div>
-      </div>
+
+
+
+    <div class="container" id="search-year-page">
+        <!-- Search Year Page content -->
+        <button id="search-year-button">Search Year</button>
+    </div>
+    
+    <div class="container" id="search-month-page">
+        <!-- Search Month Page content -->
+        <button id="search-month-button">Search Month</button>
+    </div>
+    
+    <div class="container" id="displayed-articles-page">
+        <!-- Displayed Articles Page content -->
+        <button id="displayed-articles-button">Displayed Articles</button>
+    </div>
+    
+    <div class="container" id="favorites-page">
+        <!-- Favorites Page content -->
+        <button id="favorites-button">Favorites</button>
+    </div>
+
 
     <div class="container" id="articles-container"></div>
 </body>

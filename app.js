@@ -1,3 +1,25 @@
+const pages = [
+  'log-in-page',
+  'hello-prompt-page',
+  'read-prompt-page',
+  'search-year-page',
+  'search-month-page',
+  'displayed-articles-page',
+  'favorites-page'
+];
+
+function showPage(pageId) {
+  pages.forEach((page) => {
+    const container = document.getElementById(page);
+    if (page === pageId) {
+      container.style.display = 'block';
+    } else {
+      container.style.display = 'none';
+    }
+  });
+}
+
+const API = 'https://linden-backend-git-verceldeploy-larimos.vercel.app';
 const searchForm = document.getElementById('search-form');
 const yearInput = document.getElementById('year-input');
 const monthInput = document.getElementById('month-input');
@@ -6,56 +28,109 @@ const articlesContainer = document.getElementById('articles-container');
 searchForm.addEventListener('submit', async (e) => {
   e.preventDefault();
 
-  const API = 'https://linden-backend-git-verceldeploy-larimos.vercel.app'
   const year = yearInput.value;
   const month = monthInput.value;
 
   try {
-    // Make a request to the backend API endpoint
-    // const response = await axios.get(`${API}/api/articles`);
     const response = await axios.get(`${API}/api/articles?year=${year}&month=${month}`);
     const articles = response.data;
-
-    console.log(articles);
 
     // Clear the existing articles
     articlesContainer.innerHTML = '';
 
-    // Update the front-end UI to display the fetched articles
+    // Loop through the articles and create a card for each one
     articles.forEach((article) => {
-      // Create a thumbnail container
-      const thumbnailContainer = document.createElement('div');
-      thumbnailContainer.classList.add('thumbnail-container');
+      // Create the card element
+      const card = document.createElement('article');
+      card.classList.add('card');
 
-      // Create an image element for the thumbnail
-      const thumbnailImg = document.createElement('img');
-      thumbnailImg.src = article.imageURL;
-      thumbnailImg.alt = article.title;
-      thumbnailImg.classList.add('thumbnail-image');
+      // Create the temporary text element
+      const temporaryText = document.createElement('div');
+      temporaryText.classList.add('temporary_text');
+      temporaryText.textContent = `${year} ${month}`;
+      card.appendChild(temporaryText);
 
-      // Create a title element for the article
-      const articleTitle = document.createElement('h3');
-      articleTitle.textContent = article.title;
-      articleTitle.classList.add('article-title');
+      // Create the card content element
+      const cardContent = document.createElement('div');
+      cardContent.classList.add('card_content');
+      card.appendChild(cardContent);
 
-      // Append the thumbnail and title to the thumbnail container
-      thumbnailContainer.appendChild(thumbnailImg);
-      thumbnailContainer.appendChild(articleTitle);
+      // Create the card title element
+      const cardTitle = document.createElement('span');
+      cardTitle.classList.add('card_title');
+      cardTitle.textContent = article.title;
+      cardContent.appendChild(cardTitle);
 
-      // Add event listener to open the article when thumbnail is clicked
-      thumbnailContainer.addEventListener('click', () => {
-        openArticle(article.articleId);
-      });
+      // Create the card subtitle element
+      const cardSubtitle = document.createElement('span');
+      cardSubtitle.classList.add('card_subtitle');
 
-      // Append the thumbnail container to the articles container
-      articlesContainer.appendChild(thumbnailContainer);
+      // Create the anchor tag for the web URL
+      const cardSubtitleLink = document.createElement('a');
+      cardSubtitleLink.href = article.webURL;
+      cardSubtitleLink.target = '_blank';
+      cardSubtitleLink.textContent = article.webURL;
+      cardSubtitle.appendChild(cardSubtitleLink);
+
+      cardContent.appendChild(cardSubtitle);
+
+      // Create the card description element
+      const cardDescription = document.createElement('p');
+      cardDescription.classList.add('card_description');
+      cardDescription.textContent = article.summary || '';
+      cardContent.appendChild(cardDescription);
+
+      // Check if the article has an imageURL
+      if (article.imageURL) {
+        card.style.backgroundImage = `url(${article.imageURL})`;
+      }
+
+      // Append the card to the articles container
+      articlesContainer.appendChild(card);
     });
   } catch (error) {
-    // Handle any errors that occurred during the API request
     console.error(error);
   }
 });
 
+// Add event listeners to the buttons for switching between pages
+
+const logInButton = document.getElementById('log-in-button');
+logInButton.addEventListener('click', () => {
+  showPage('log-in-page');
+});
+
+const helloPromptButton = document.getElementById('hello-prompt-button');
+helloPromptButton.addEventListener('click', () => {
+  showPage('hello-prompt-page');
+});
+
+const readPromptButton = document.getElementById('read-prompt-button');
+readPromptButton.addEventListener('click', () => {
+  showPage('read-prompt-page');
+});
+
+const searchYearButton = document.getElementById('search-year-button');
+searchYearButton.addEventListener('click', () => {
+  showPage('search-year-page');
+});
+
+const searchMonthButton = document.getElementById('search-month-button');
+searchMonthButton.addEventListener('click', () => {
+  showPage('search-month-page');
+});
+
+const displayedArticlesButton = document.getElementById('displayed-articles-button');
+displayedArticlesButton.addEventListener('click', () => {
+  showPage('displayed-articles-page');
+});
+
+const favoritesButton = document.getElementById('favorites-button');
+favoritesButton.addEventListener('click', () => {
+  showPage('favorites-page');
+});
+
+//FUNCTIONS TO USE ARTICLES
 // Function to open an article
 function openArticle(articleId) {
   // Make a request to the backend API endpoint to retrieve the article by its ID
@@ -68,7 +143,7 @@ function openArticle(articleId) {
     })
     .catch((error) => {
       // Handle any errors that occurred during the API request
-      console.error(error);
+      console.error('Cannot open article, please try again', error);
     });
 }
 
@@ -81,95 +156,19 @@ function saveArticle(articleId) {
     })
     .catch((error) => {
       // Handle any errors that occurred during the API request
-      console.error(error);
+      console.error('Cannot save article, please try again', error);
     });
 }
 
-//create one for delete
- 
-
-
-
-//FRUIT EXAMPLE
-// const fruitDiv = document.getElementById("fruit")
-
-// const fruitBtn = document.getElementById("get-fruit")
-//       fruitBtn.addEventListener('click', getRandomFruit)
-
-// const eatBtn = document.getElementById("eat-fruit")
-//       eatBtn.addEventListener('click', eatFruit)
-
-// async function getAFruit(random) {
-//     const response = await fetch(`http://localhost:3000/fruits/${random}`)
-//     return response
-// }
-
-// async function getRMStuff() {
-//     const response = await fetch('https://rickandmortyapi.com/api/character')
-//     return response
-// }
-
-// const RMStuff = () => {
-//     getRMStuff()
-//     .then((response) => {
-//         // Error handling and parsing of the response
-//         return response.text()
-//     })
-//     .then((data) => {
-//         // Use the handled data
-//         console.log(JSON.parse(data).results)
-//     })
-// }
-
-// console.log('hi')
-// RMStuff()
-
-// async function deleteFruit(fruitName) {
-//     const response = await fetch(
-//         `http://localhost:3000/fruits`,
-//         {
-//             method: "DELETE",
-//             headers: {
-//                 'Accept': 'application/json',
-//                 'Content-Type': 'application/json'
-//             },
-//             body: JSON.stringify({
-//                 name: fruitName
-//             })
-//         }
-//     )
-
-//     return response
-// }
-
-// function getRandomFruit() {
-//     const random = Math.floor(Math.random() * 4 + 1)
-    
-//     getAFruit(random)
-//     .then((response) => {
-//         const fruitData = response.json()
-//         return fruitData
-//     })
-//     .then((data) => {
-//         if(data.name) {
-//             fruitDiv.innerText = data.name
-//         }
-//         else {
-//             return 'Some server error'
-//         }
-//     })
-// }
-
-// function eatFruit() {
-//     const fruit = fruitDiv.innerText
-//     console.log(fruit)
-//     deleteFruit(fruit)
-//     .then((response) => {
-//         const fruitData = response.json()
-//         return fruitData
-//     })
-//     .then((data) => {
-//         console.log(data)
-//         window.location.reload();
-//     })
-// }
+// Function to delete an article
+function deleteArticle(articleId) {
+  // Make a request to the backend API endpoint to delete the article by its ID
+  axios.delete(`${API}/api/articles/${articleId}/delete`)
+    .then((response) => {
+      console.log(response.data); // Success message from the server
+    })
+    .catch((error) => {
+      // Handle any errors that occurred during the API request
+      console.error('Cannot delete article, please try again', error);
+    });
+}
