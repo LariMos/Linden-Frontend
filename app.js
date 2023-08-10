@@ -33,6 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
        });
     }
+    
 
 
   const sendButton = document.getElementById('send-button');
